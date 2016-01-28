@@ -15,7 +15,7 @@ public class HelloWorld {
 		Document document = Jsoup.connect(domainName).get();
 		Element articles = GetFromDocumentByElementID(document, "articles");
 		List<String> hrefList = GetHrefListFromElement(articles);
-		ClearList(hrefList); 
+		ClearList(hrefList);
 		
 		hrefList.forEach(href -> {
 									System.out.println(domainName + href);
