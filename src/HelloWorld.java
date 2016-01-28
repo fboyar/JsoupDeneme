@@ -1,25 +1,35 @@
-import java.io.IOException;
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.ArrayList;
+import java.util.List;
 
+import org.jsoup.select.Elements;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
 
 public class HelloWorld {
 	
-	private static String domainName = "https://onedio.com";
+	private static String domainName = "http://www.milliyet.com.tr/";
+	private static boolean isContainsHTTP = true;
 	
 	public static void main(String[] args) throws Exception{
+		isContainsHTTP = false;
 		Document document = Jsoup.connect(domainName).get();
-		Element articles = GetFromDocumentByElementID(document, "articles");
-		List<String> hrefList = GetHrefListFromElement(articles);
-		ClearList(hrefList); 
+//		Element articles = GetFromDocumentByElementID(document, "articles");
+		Element articles = document.getElementsByClass("oneCikanlar").first();
 		
-		hrefList.forEach(href -> {
-									System.out.println(domainName + href);
-								});
+		List<String> hrefList = GetHrefListFromElement(articles);
+		
+		if (isContainsHTTP){
+			ClearList(hrefList);		
+			hrefList.forEach(href -> {
+										System.out.println(domainName + href);
+									});
+		}
+		else {
+			hrefList.forEach(href -> {
+				System.out.println(href);
+			});			
+		}
 		
 //		for (String href : hrefList.stream().filter(p -> !((String)p).startsWith("http:")).collect(Collectors.toList())){
 //			System.out.println(href);
